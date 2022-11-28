@@ -1,0 +1,110 @@
+<html>
+    <head>
+        <title>Critrian B Patterns</title>
+        <!-- CSS only -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+            h1,h4{
+                font-family: 'Roboto', sans-serif;
+            }
+           body{
+            background-color: aliceblue;
+           }
+        </style>
+    </head>
+    <body>
+        <div class="Container">
+            <Br>
+            <h1>Quadratic and Linear Pattern Finder</h1>
+        <hr>
+        <p>This is a site created by <B>Pushkar Gupta</B>, So that it can be easy for poeple to battle the boring questions of Critrian B. I hope you <b>Dont show this to Maam </b>
+        Enjoy my code.</p>
+        <input id="1" type="number" placeholder="Write First Number" class="form-control"><br>
+        <input id="2" type="number" placeholder="Write Second Number" class="form-control"><br>
+        <input id="3" type="number" placeholder="Write Third Number" class="form-control"><br>
+        <input id="4" type="number" placeholder="Write Fourth Number" class="form-control"><br>
+        <br><hr><br>
+        <button onclick="run()" class="btn btn-primary" style="width:100%;font-weight:bold;">Find</button>
+        <br><hr>
+        <h4 id="types">Type of Sequence : </h4>
+        <h4 id="formu">Formula : </h4>
+        </div>
+        <script>
+            function analyse(y){
+                res = {"linear":[],"quad":[]}
+                for (i=y.length-1; i>=0; i--){
+                    if (i - 2>= 0 && (y[i] + y[i-2] == 2*y[i-1])){res["linear"].push(true)}
+                    else if(i-3>=0 && (y[i] - 2*y[i-1] + y[i-2] == y[i-1] - 2*y[i-2] + y[i-3])){res["quad"].push(true)}
+                };
+                for (const [k, v] of Object.entries(res)){
+                    if (v){
+                        if (k == "linear" && (v.length+2 == y.length)){return k}else if (k == "quad" && (v.length+3 == y.length)){return k}
+                    }
+                }
+            }
+            function run(){
+                y = [Number(document.getElementById("1").value),Number(document.getElementById("2").value),Number(document.getElementById("3").value),Number(document.getElementById("4").value)];
+                seq = analyse(y)
+                if (seq == "linear"){
+                    document.getElementById("types").innerHTML = "Type of Sequence : Linear";
+                    document.getElementById("formu").innerHTML = "Formula : "+checklinear(y);
+                }
+                else if (seq == "quad"){
+                    document.getElementById("types").innerHTML = "Type of Sequence : Quadratic";
+                    document.getElementById("formu").innerHTML = "Formula : "+checkquad(y);
+                }
+            }
+            function checklinear(y){
+                const d = y[1]-y[0];let c = y[0] - d;
+                if (y[0] - d >= 0){
+                    if (d != 0){
+                        c="+"+(y[0] - d)
+                    }
+                }
+                if(c=="+0"){
+                    c = "";
+                }
+                return("f(x) = "+d+"x "+c)
+                // if(second-first==third-second&&fourth-third == second - first&&fourth-third == third - second){
+                //     console.log("Is linear");
+                //     dumb = (second-first);
+                //     final = first - dumb;
+                //     if(final>0){
+                //         final = "+"+final;
+                //     }else if(final == 0){
+                //         final = "";
+                //     }
+                //     if(dumb == 1){
+                //         dumb = "";
+                //     }
+                //     console.log(dumb+"x"+final);
+                // }else{
+                   
+                // }
+            }
+            function checkquad(){
+            first = Number(document.getElementById("1").value);
+            second = Number(document.getElementById("2").value);
+            third = Number(document.getElementById("3").value);
+            fourth = Number(document.getElementById("4").value);
+            if((third - second)-(second-first)==(fourth-third)-(third - second)&&(third - second)-(second-first)!=0){
+                a = ((third - second)-(second-first))/2;
+                b = (second-first)-(3*a);
+                c = first - a - b;
+                console.log("Is quadratic");
+                if(a == 1){
+                    a = "x^2";
+                }else if(a == 0){a = ""}else if(a>0||a<0){a = a+"x^2"};
+                if(b == 1){
+                    b = "+x";
+                }else if(b ==0){b = ""}else if(b>0){b = "+"+b+"x"}else if(b<0){b = b+"x"}
+                if(c>0){c = "+"+c}else if(c == 0){c = ""}
+                return(a+b+c);
+            }else{
+            }
+            }
+        </script>
+    </body>
+</html>
